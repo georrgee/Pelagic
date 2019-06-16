@@ -13,6 +13,8 @@
 		360A160622B2FA9500F93DD4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 360A160522B2FA9500F93DD4 /* Assets.xcassets */; };
 		360A160922B2FA9500F93DD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 360A160722B2FA9500F93DD4 /* LaunchScreen.storyboard */; };
 		360A161222B2FC8500F93DD4 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360A161122B2FC8500F93DD4 /* UIView+Layout.swift */; };
+		3660454F22B4B26D00C411D8 /* TopNavigationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3660454E22B4B26D00C411D8 /* TopNavigationStackView.swift */; };
+		36FC94DE22B4287E007B4A87 /* HomeButtonControlsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FC94DD22B4287E007B4A87 /* HomeButtonControlsStackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		360A160822B2FA9500F93DD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		360A160A22B2FA9500F93DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		360A161122B2FC8500F93DD4 /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
+		3660454E22B4B26D00C411D8 /* TopNavigationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopNavigationStackView.swift; sourceTree = "<group>"; };
+		36FC94DD22B4287E007B4A87 /* HomeButtonControlsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButtonControlsStackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,7 @@
 		360A15FD22B2FA9400F93DD4 /* Pelagic */ = {
 			isa = PBXGroup;
 			children = (
+				36FC94DC22B427B7007B4A87 /* Views */,
 				360A15FE22B2FA9400F93DD4 /* AppDelegate.swift */,
 				360A160022B2FA9400F93DD4 /* ViewController.swift */,
 				360A161022B2FC6C00F93DD4 /* Helpers */,
@@ -73,6 +78,23 @@
 				360A161122B2FC8500F93DD4 /* UIView+Layout.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		3660455022B4B27700C411D8 /* Stack Views */ = {
+			isa = PBXGroup;
+			children = (
+				36FC94DD22B4287E007B4A87 /* HomeButtonControlsStackView.swift */,
+				3660454E22B4B26D00C411D8 /* TopNavigationStackView.swift */,
+			);
+			path = "Stack Views";
+			sourceTree = "<group>";
+		};
+		36FC94DC22B427B7007B4A87 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3660455022B4B27700C411D8 /* Stack Views */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,7 +170,9 @@
 			files = (
 				360A160122B2FA9400F93DD4 /* ViewController.swift in Sources */,
 				360A15FF22B2FA9400F93DD4 /* AppDelegate.swift in Sources */,
+				36FC94DE22B4287E007B4A87 /* HomeButtonControlsStackView.swift in Sources */,
 				360A161222B2FC8500F93DD4 /* UIView+Layout.swift in Sources */,
+				3660454F22B4B26D00C411D8 /* TopNavigationStackView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
