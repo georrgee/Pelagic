@@ -7,7 +7,8 @@ import UIKit
 
 class CardView: UIView {
     
-    fileprivate let imageView = UIImageView(image: #imageLiteral(resourceName: "wife"))
+    let imageView = UIImageView(image: #imageLiteral(resourceName: "wife"))
+    let informationLabel = UILabel()
     fileprivate let threshold: CGFloat = 200
 
     override init(frame: CGRect) {
@@ -20,6 +21,13 @@ class CardView: UIView {
         
         addSubview(imageView)
         imageView.fillSuperview()
+        
+        addSubview(informationLabel)
+        informationLabel.anchor(top: nil, leading: self.leadingAnchor, bottom: self.bottomAnchor, trailing: self.trailingAnchor, padding: .init(top: 0, left: 16, bottom: 16, right: 16))
+        informationLabel.text = "Test Name Test Age"
+        informationLabel.textColor = .white
+        informationLabel.font = UIFont.systemFont(ofSize: 34, weight: .heavy)
+        informationLabel.numberOfLines = 0
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         addGestureRecognizer(panGesture)
@@ -70,7 +78,11 @@ class CardView: UIView {
             
         }) { (_) in
             self.transform = .identity
-            self.frame = CGRect(x: 0, y: 0, width: self.superview!.frame.width, height: self.superview!.frame.height)
+            
+            if shouldDismissCard {
+                self.removeFromSuperview()
+            }
+//            self.frame = CGRect(x: 0, y: 0, width: self.superview!.frame.width, height: self.superview!.frame.height)
         }
     }
 
