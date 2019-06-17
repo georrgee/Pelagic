@@ -1,6 +1,5 @@
 //  HomeButtonControlsStackView.swift
 //  Pelagic
-//
 //  Created by George Garcia on 6/14/19.
 //  Copyright © 2019 GeeTeam. All rights reserved.
 
