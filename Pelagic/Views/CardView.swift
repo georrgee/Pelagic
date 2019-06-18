@@ -12,7 +12,6 @@ class CardView: UIView {
             imageView.image = UIImage(named: cardViewModel.imageName)
             informationLabel.attributedText = cardViewModel.attributedText
             informationLabel.textAlignment = cardViewModel.textAlignment
-            
         }
     }
     
