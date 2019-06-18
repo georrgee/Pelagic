@@ -12,19 +12,18 @@ class HomeViewController: UIViewController {
     
     let cardsDeckView = UIView()
     
-//    let users = [
-//        User(name: "Ashley", age: 22, profession: "Adult Entertainer", imageName: "wife"),
-//        User(name: "Vicki", age: 26, profession: "Model", imageName: "vicki"),
-//        User(name: "Ana", age: 33, profession: "Entrepreneur", imageName: "ana"),
-//        User(name: "Shaida", age: 33, profession: "Professor", imageName: "shaida")
-//    ]
-//
-    let cardViewModel = [
-        User(name: "Ashley", age: 22, profession: "Adult Entertainer", imageName: "wife").toCardViewModel(),
-        User(name: "Vicki", age: 26, profession: "Model", imageName: "vicki").toCardViewModel(),
-        User(name: "Ana", age: 33, profession: "Entrepreneur", imageName: "ana").toCardViewModel(),
-        User(name: "Shaida", age: 33, profession: "Professor", imageName: "shaida").toCardViewModel()
-    ]
+    let cardViewModel: [CardViewModel] = { // 3)
+        let producers = [
+            User(name: "Vicki", age: 26, profession: "Model", imageName: "vicki"),
+            User(name: "Ana", age: 33, profession: "Entrepreneur", imageName: "ana"),
+            User(name: "Shaida", age: 33, profession: "Professor", imageName: "shaida"),
+            User(name: "Ashley", age: 22, profession: "Adult Entertainer", imageName: "wife"),
+            Advertiser(title: "Dos Flavors!", brandName: "Sour Patch", posterPhotoName: "gummy_bear_ad")
+        ] as [ProducesCardViewModel]
+        
+        let viewModels = producers.map{$0.toCardViewModel() }
+        return viewModels
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,20 +33,16 @@ class HomeViewController: UIViewController {
     }
     
     fileprivate func setupDummyCards() {
-        
-        
         cardViewModel.forEach { (cardViewVM) in
-            let cardView = CardView(frame: .zero)
-            cardView.imageView.image = UIImage(named: cardViewVM.imageName)
-            cardView.informationLabel.attributedText = cardViewVM.attributedText
-            cardView.informationLabel.textAlignment = cardViewVM.textAlignment
             
+            let cardView = CardView(frame: .zero)
+            cardView.cardViewModel = cardViewVM
+            //4
             cardsDeckView.addSubview(cardView)
             cardView.fillSuperview()
         } // 2)
     }
 
-    
     // MARK: - Fileprivate Methods
     
     fileprivate func setupLayout() {
@@ -69,25 +64,41 @@ class HomeViewController: UIViewController {
 /* MARK: Notes
  
  1) Removed
- //        buttonsStackView.distribution = .fillEqually
- //        buttonsStackView.heightAnchor.constraint(equalToConstant: 120).isActive = true
+ 
+         buttonsStackView.distribution = .fillEqually
+         buttonsStackView.heightAnchor.constraint(equalToConstant: 120).isActive = true
  
  2) Removed - This code is placed into the CardViewModel.swift file. Reason: Better coding structure
  
- //        users.forEach { (user) in
- //            let cardView = CardView(frame: .zero)
- //            cardView.imageView.image = UIImage(named: user.imageName)
- //            cardView.informationLabel.text = "\(user.name) \(user.age)\n\(user.profession)"
- //
- //            let attributedText = NSMutableAttributedString(string: user.name, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .heavy)])
- //            attributedText.append(NSAttributedString(string: "  \(user.age)", attributes: [.font: UIFont.systemFont(ofSize: 24, weight: .regular)]))
- //            attributedText.append(NSAttributedString(string: "\n\(user.profession)", attributes: [.font: UIFont.systemFont(ofSize: 24, weight: .regular)]))
- //
- //            cardView.informationLabel.attributedText = attributedText
- //
- //            cardsDeckView.addSubview(cardView)
- //            cardView.fillSuperview()
- //        }
+         users.forEach { (user) in
+             let cardView = CardView(frame: .zero)
+             cardView.imageView.image = UIImage(named: user.imageName)
+             cardView.informationLabel.text = "\(user.name) \(user.age)\n\(user.profession)"
  
+             let attributedText = NSMutableAttributedString(string: user.name, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .heavy)])
+             attributedText.append(NSAttributedString(string: "  \(user.age)", attributes: [.font: UIFont.systemFont(ofSize: 24, weight: .regular)]))
+             attributedText.append(NSAttributedString(string: "\n\(user.profession)", attributes: [.font: UIFont.systemFont(ofSize: 24, weight: .regular)]))
+ 
+             cardView.informationLabel.attributedText = attributedText
+ 
+             cardsDeckView.addSubview(cardView)
+             cardView.fillSuperview()
+         }
+ 
+ 3) Removed Old Structure
+             let cardViewModel = [
+             User(name: "Vicki", age: 26, profession: "Model", imageName: "vicki").toCardViewModel(),
+             User(name: "Ana", age: 33, profession: "Entrepreneur", imageName: "ana").toCardViewModel(),
+             User(name: "Shaida", age: 33, profession: "Professor", imageName: "shaida").toCardViewModel(),
+             User(name: "Ashley", age: 22, profession: "Adult Entertainer", imageName: "wife").toCardViewModel(),
+             Advertiser(title: "Dos Flavors!", brandName: "Sour Patch", posterPhotoName: "gummy_bear_ad").toCardViewModel()
+            ]
+ 
+            We can defintely restructure to this ^
+ 
+ 4) Remove 3 lines of code - Better structure
+             cardView.imageView.image = UIImage(named: cardViewVM.imageName)
+             cardView.informationLabel.attributedText = cardViewVM.attributedText
+             cardView.informationLabel.textAlignment = cardViewVM.textAlignment
  */
 

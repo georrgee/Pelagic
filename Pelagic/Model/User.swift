@@ -5,7 +5,9 @@
 
 import UIKit
 
-struct User { // Define the properties for a user
+struct User: ProducesCardViewModel {
+    
+    // Define the properties for a user
     let name:       String
     let age:        Int
     let profession: String
