@@ -7,20 +7,30 @@ import UIKit
 
 class CardView: UIView {
     
-    var cardViewModel: CardViewModel! {
-        didSet {
-            imageView.image = UIImage(named: cardViewModel.imageName)
-            informationLabel.attributedText = cardViewModel.attributedText
-            informationLabel.textAlignment = cardViewModel.textAlignment
-        }
-    }
-    
     // encapsulation
     fileprivate let imageView = UIImageView(image: #imageLiteral(resourceName: "wife"))
     fileprivate let informationLabel = UILabel()
     fileprivate let gradientLayer = CAGradientLayer()
-
+    
+    fileprivate let deselectedBar = UIColor(white: 0, alpha: 0.1)
     fileprivate let threshold: CGFloat = 200
+    
+    var cardViewModel: CardViewModel! {
+        didSet {
+            let imageName = cardViewModel.imageNames.first ?? "" // 5)
+            imageView.image = UIImage(named: imageName)
+            informationLabel.attributedText = cardViewModel.attributedText
+            informationLabel.textAlignment = cardViewModel.textAlignment
+            
+            (0..<cardViewModel.imageNames.count).forEach { (_) in
+                let barView = UIView()
+                barView.backgroundColor = deselectedBar
+                //barView.backgroundColor = .white
+                barsStackView.addArrangedSubview(barView) // setup dummy bars
+            }
+            barsStackView.arrangedSubviews.first?.backgroundColor = .white
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,6 +39,7 @@ class CardView: UIView {
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         addGestureRecognizer(panGesture)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
     }
     
     override func layoutSubviews() {
@@ -45,6 +56,7 @@ class CardView: UIView {
         addSubview(imageView)
         imageView.fillSuperview()
         
+        setupBarsStackView()
         setupGradientLayer()
         
         addSubview(informationLabel)
@@ -55,7 +67,29 @@ class CardView: UIView {
         informationLabel.numberOfLines = 0
     }
     
+    var imageIndex = 0
     
+    @objc fileprivate func handleTap(gesture: UITapGestureRecognizer) {
+        
+        let tapLocation = gesture.location(in: nil)
+        let nextPhoto = tapLocation.x > (frame.width / 2) ? true : false
+        
+        if nextPhoto {
+            imageIndex = min(imageIndex + 1, cardViewModel.imageNames.count - 1)
+        } else {
+            imageIndex = max(0, imageIndex - 1)
+        }
+        
+        let imageName = cardViewModel.imageNames[imageIndex]
+        imageView.image = UIImage(named: imageName)
+        
+        barsStackView.arrangedSubviews.forEach { (view) in
+            view.backgroundColor = deselectedBar
+        }
+        
+        barsStackView.arrangedSubviews[imageIndex].backgroundColor = .white
+        
+    }
     // custom delcaration
     @objc fileprivate func handlePan(gesture: UIPanGestureRecognizer) {
         
@@ -73,6 +107,17 @@ class CardView: UIView {
         default:
             ()
         }
+    }
+    
+    fileprivate let barsStackView = UIStackView()
+    
+    fileprivate func setupBarsStackView() {
+        addSubview(barsStackView)
+        barsStackView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 8, left: 8, bottom: 0, right: 8), size: .init(width: 0, height: 4))
+        barsStackView.spacing = 4
+        barsStackView.distribution = .fillEqually
+        
+       // 6)
     }
     
     fileprivate func setupGradientLayer() {
@@ -140,4 +185,17 @@ class CardView: UIView {
  
         4) Code removed. We dont need that anymore
            informationLabel.text = "Test Name Test Age"
+ 
+        5) using .first can guranteed that the app will never crash (if there are no photos; if imageNames.count == 0, it will crash)
+ 
+        6) Code Removed: We are just setting up the dummy bars, now we are setting up a dynamic amount of bars the user has
+
+                 (0..<4).forEach { (_) in
+                 let barView = UIView()
+                 barView.backgroundColor = UIColor(white: 0, alpha: 0.1)
+                 //barView.backgroundColor = .white
+                 barsStackView.addArrangedSubview(barView) // setup dummy bars
+                 }
+                 barsStackView.arrangedSubviews.first?.backgroundColor = .white
+ 
  */
