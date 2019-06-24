@@ -12,7 +12,7 @@ class CardView: UIView {
     fileprivate let informationLabel = UILabel()
     fileprivate let gradientLayer = CAGradientLayer()
     
-    fileprivate let deselectedBar = UIColor(white: 0, alpha: 0.1)
+    fileprivate let deselectedBarColor = UIColor(white: 0, alpha: 0.1)
     fileprivate let threshold: CGFloat = 200
     
     var cardViewModel: CardViewModel! {
@@ -24,11 +24,23 @@ class CardView: UIView {
             
             (0..<cardViewModel.imageNames.count).forEach { (_) in
                 let barView = UIView()
-                barView.backgroundColor = deselectedBar
+                barView.backgroundColor = deselectedBarColor
                 //barView.backgroundColor = .white
                 barsStackView.addArrangedSubview(barView) // setup dummy bars
             }
             barsStackView.arrangedSubviews.first?.backgroundColor = .white
+            
+            setupImageIndexObserver()
+        }
+    }
+    
+    fileprivate func setupImageIndexObserver() {
+        cardViewModel.imageIndexObserver = { [weak self] (index, image) in // 8)
+            self?.imageView.image = image
+            self?.barsStackView.arrangedSubviews.forEach({ (bars) in
+                bars.backgroundColor = self?.deselectedBarColor
+            })
+            self?.barsStackView.arrangedSubviews[index].backgroundColor = .white
         }
     }
     
@@ -67,28 +79,17 @@ class CardView: UIView {
         informationLabel.numberOfLines = 0
     }
     
-    var imageIndex = 0
-    
     @objc fileprivate func handleTap(gesture: UITapGestureRecognizer) {
         
         let tapLocation = gesture.location(in: nil)
-        let nextPhoto = tapLocation.x > (frame.width / 2) ? true : false
+        let shouldGoToNextPhoto = tapLocation.x > (frame.width / 2) ? true : false
         
-        if nextPhoto {
-            imageIndex = min(imageIndex + 1, cardViewModel.imageNames.count - 1)
+        if shouldGoToNextPhoto {
+            cardViewModel.advanceToNextPhoto()
         } else {
-            imageIndex = max(0, imageIndex - 1)
+            cardViewModel.goToPreviousPhoto()
         }
-        
-        let imageName = cardViewModel.imageNames[imageIndex]
-        imageView.image = UIImage(named: imageName)
-        
-        barsStackView.arrangedSubviews.forEach { (view) in
-            view.backgroundColor = deselectedBar
-        }
-        
-        barsStackView.arrangedSubviews[imageIndex].backgroundColor = .white
-        
+        // 7)
     }
     // custom delcaration
     @objc fileprivate func handlePan(gesture: UIPanGestureRecognizer) {
@@ -197,5 +198,25 @@ class CardView: UIView {
                  barsStackView.addArrangedSubview(barView) // setup dummy bars
                  }
                  barsStackView.arrangedSubviews.first?.backgroundColor = .white
+ 
+        7) Code Removed. We have a class function that can do the indexing for the user's photos
+                 if nextPhoto {
+                     imageIndex = min(imageIndex + 1, cardViewModel.imageNames.count - 1)
+                 } else {
+                     imageIndex = max(0, imageIndex - 1)
+                 }
+ 
+                 let imageName = cardViewModel.imageNames[imageIndex]
+                 imageView.image = UIImage(named: imageName)
+ 
+                 barsStackView.arrangedSubviews.forEach { (view) in
+                     view.backgroundColor = deselectedBar
+                 }
+ 
+                 barsStackView.arrangedSubviews[imageIndex].backgroundColor = .white
+ 
+        8) Note to self.
+           - (Doesnt matter which you use) unowned/weak self = to avoid retain cycles; Every self must be optional.
+
  
  */

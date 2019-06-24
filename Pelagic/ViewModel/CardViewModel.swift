@@ -9,10 +9,36 @@ protocol ProducesCardViewModel {
     func toCardViewModel() -> CardViewModel
 }
 
-struct CardViewModel {
+class CardViewModel {
     // define the properties that our view the display/render
     
     let imageNames:     [String]
     let attributedText: NSAttributedString
     let textAlignment:  NSTextAlignment
+    
+    init(imageNames: [String], attributedText: NSAttributedString, textAlignment: NSTextAlignment) {
+        self.imageNames     = imageNames
+        self.attributedText = attributedText
+        self.textAlignment  = textAlignment
+    }
+    
+    fileprivate var imageIndex = 0 {
+        didSet {
+            let imageName = imageNames[imageIndex]
+            let image = UIImage(named: imageName)
+            imageIndexObserver?(imageIndex, image)
+        }
+    }
+    
+    var imageIndexObserver: ( (Int, UIImage?) -> () )?
+    
+    func advanceToNextPhoto() {
+        imageIndex = min(imageIndex + 1, imageNames.count - 1)
+        
+        // Here we can apply reactive programming (expose a property on the View Model Objects)
+    }
+    
+     func goToPreviousPhoto() {
+        imageIndex = max(0, imageNames.count - 1)
+    }
 }
