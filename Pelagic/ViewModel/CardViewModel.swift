@@ -39,6 +39,6 @@ class CardViewModel {
     }
     
      func goToPreviousPhoto() {
-        imageIndex = max(0, imageNames.count - 1)
+        imageIndex = max(0, imageIndex - 1)
     }
 }
