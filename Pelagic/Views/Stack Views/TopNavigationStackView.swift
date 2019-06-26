@@ -6,18 +6,16 @@
 import UIKit
 
 class TopNavigationStackView: UIStackView {
+    
+    let settingsButton = UIButton(type: .system)
+    let messageButton  = UIButton(type: .system)
+    let wavesImageView = UIImageView(image: #imageLiteral(resourceName: "waves"))
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         heightAnchor.constraint(equalToConstant: 80).isActive = true
-        
-        let settingsButton = UIButton(type: .system)
-        let messageButton  = UIButton(type: .system)
-        let wavesImageView = UIImageView(image: #imageLiteral(resourceName: "waves"))
-        
         wavesImageView.contentMode = .scaleAspectFit
-        
         settingsButton.setImage(#imageLiteral(resourceName: "profile").withRenderingMode(.alwaysOriginal), for: .normal)
         messageButton.setImage(#imageLiteral(resourceName: "messages").withRenderingMode(.alwaysOriginal), for: .normal)
         

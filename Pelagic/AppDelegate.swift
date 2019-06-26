@@ -1,10 +1,7 @@
-//
 //  AppDelegate.swift
 //  Pelagic
-//
 //  Created by George Garcia on 6/13/19.
 //  Copyright © 2019 GeeTeam. All rights reserved.
-//
 
 import UIKit
 
@@ -15,7 +12,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        window = UIWindow()
+        window?.makeKeyAndVisible()
+        window?.rootViewController = RegistrationController()
+        
         return true
     }
 

@@ -13,6 +13,8 @@
 		360A160622B2FA9500F93DD4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 360A160522B2FA9500F93DD4 /* Assets.xcassets */; };
 		360A160922B2FA9500F93DD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 360A160722B2FA9500F93DD4 /* LaunchScreen.storyboard */; };
 		360A161222B2FC8500F93DD4 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360A161122B2FC8500F93DD4 /* UIView+Layout.swift */; };
+		363DE58022C17B3C00492415 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363DE57F22C17B3C00492415 /* RegistrationController.swift */; };
+		363DE58222C1846C00492415 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363DE58122C1846C00492415 /* CustomTextField.swift */; };
 		365AD4BE22B82220001FE4FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365AD4BD22B82220001FE4FB /* User.swift */; };
 		365AD4C222B85469001FE4FB /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365AD4C122B85469001FE4FB /* CardViewModel.swift */; };
 		3660454F22B4B26D00C411D8 /* TopNavigationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3660454E22B4B26D00C411D8 /* TopNavigationStackView.swift */; };
@@ -30,6 +32,8 @@
 		360A160822B2FA9500F93DD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		360A160A22B2FA9500F93DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		360A161122B2FC8500F93DD4 /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
+		363DE57F22C17B3C00492415 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		363DE58122C1846C00492415 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		365AD4BD22B82220001FE4FB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		365AD4C122B85469001FE4FB /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 		3660454E22B4B26D00C411D8 /* TopNavigationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopNavigationStackView.swift; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				360A160022B2FA9400F93DD4 /* HomeViewController.swift */,
+				363DE57F22C17B3C00492415 /* RegistrationController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -129,6 +134,7 @@
 			children = (
 				3660455022B4B27700C411D8 /* Stack Views */,
 				3660455122B70AF400C411D8 /* CardView.swift */,
+				363DE58122C1846C00492415 /* CustomTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -205,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				360A160122B2FA9400F93DD4 /* HomeViewController.swift in Sources */,
+				363DE58222C1846C00492415 /* CustomTextField.swift in Sources */,
 				360A15FF22B2FA9400F93DD4 /* AppDelegate.swift in Sources */,
 				36D6E6DC22B9679D00545DD9 /* Advertiser.swift in Sources */,
 				36FC94DE22B4287E007B4A87 /* HomeButtonControlsStackView.swift in Sources */,
@@ -212,6 +219,7 @@
 				365AD4C222B85469001FE4FB /* CardViewModel.swift in Sources */,
 				3660455222B70AF400C411D8 /* CardView.swift in Sources */,
 				3660454F22B4B26D00C411D8 /* TopNavigationStackView.swift in Sources */,
+				363DE58022C17B3C00492415 /* RegistrationController.swift in Sources */,
 				365AD4BE22B82220001FE4FB /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
