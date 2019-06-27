@@ -7,6 +7,8 @@ import UIKit
 
 class RegistrationController: UIViewController {
     
+    let registrationModel = RegistrationViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -14,6 +16,7 @@ class RegistrationController: UIViewController {
         setupLayout()
         setupNotificationsObserver()
         setupTapGesture()
+        setupRegistrationViewModelObserver()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -37,6 +40,8 @@ class RegistrationController: UIViewController {
         let textField = CustomTextField(padding: 24)
         textField.placeholder = "Full Name"
         textField.backgroundColor = .white
+        textField.addTarget(self, action: #selector(handleTextChange), for: .editingChanged)
+
         return textField
     }()
     
@@ -44,6 +49,8 @@ class RegistrationController: UIViewController {
         let textField = CustomTextField(padding: 24)
         textField.placeholder = "Email"
         textField.backgroundColor = .white
+        textField.addTarget(self, action: #selector(handleTextChange), for: .editingChanged)
+
         return textField
     }()
     
@@ -52,6 +59,8 @@ class RegistrationController: UIViewController {
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true
         textField.backgroundColor = .white
+        textField.addTarget(self, action: #selector(handleTextChange), for: .editingChanged)
+
         return textField
     }()
     
@@ -60,11 +69,33 @@ class RegistrationController: UIViewController {
         button.setTitle("Register", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
-        button.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
+        button.backgroundColor = .lightGray
+        button.setTitleColor(.gray, for: .disabled)
         button.heightAnchor.constraint(equalToConstant: 44).isActive = true
         button.layer.cornerRadius = 22
         return button
     }()
+    
+    fileprivate func setupRegistrationViewModelObserver() {
+        registrationModel.isFormValidObserver = { [unowned self] (isFormValid) in
+            
+            self.registerButton.isEnabled = isFormValid
+            
+            if isFormValid {
+                self.registerButton.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+                self.registerButton.setTitleColor(.white, for: .normal)
+            } else {
+                self.registerButton.backgroundColor = .lightGray
+                self.registerButton.setTitleColor(.gray, for: .normal)
+            }
+        }
+    }
+    
+    //MARK: Private Methods
+    
+    fileprivate func setupTapGesture() {
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDismissKeyboard)))
+    }
     
     fileprivate func setupGradientBackground() {
         let gradientLayer = CAGradientLayer()
@@ -74,10 +105,6 @@ class RegistrationController: UIViewController {
         gradientLayer.locations = [0, 1]
         view.layer.addSublayer(gradientLayer)
         gradientLayer.frame = view.bounds
-    }
-    
-    fileprivate func setupTapGesture() {
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDismissKeyboard)))
     }
     
     lazy var stackView = UIStackView(arrangedSubviews: [selectPhotoButton, fullNameTextField, emailTextField, passwordTextField, registerButton])
@@ -95,6 +122,8 @@ class RegistrationController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    // MARK: @Objc Private Methods
+    
     @objc fileprivate func handleKeyboardHide(gesture: UITapGestureRecognizer) {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseOut, animations: {
             self.view.transform = .identity
@@ -110,5 +139,15 @@ class RegistrationController: UIViewController {
         let bottomSpace = view.frame.height - stackView.frame.origin.y - stackView.frame.height // 3)
         let difference = keyboardFrame.height - bottomSpace
         self.view.transform = CGAffineTransform(translationX: 0, y: -difference - 8)
+    }
+    
+    @objc fileprivate func handleTextChange(textField: UITextField) {
+        if textField == fullNameTextField {
+            registrationModel.fullName = textField.text
+        } else if textField == emailTextField {
+            registrationModel.email = textField.text
+        } else if textField == passwordTextField {
+            registrationModel.password = textField.text
+        }
     }
 }
