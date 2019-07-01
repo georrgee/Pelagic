@@ -73,6 +73,8 @@ class RegistrationController: UIViewController {
         button.setTitleColor(.gray, for: .disabled)
         button.heightAnchor.constraint(equalToConstant: 44).isActive = true
         button.layer.cornerRadius = 22
+        
+        button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         return button
     }()
     
@@ -123,6 +125,10 @@ class RegistrationController: UIViewController {
     }
     
     // MARK: @Objc Private Methods
+    
+    @objc fileprivate func handleRegister() {
+        
+    }
     
     @objc fileprivate func handleKeyboardHide(gesture: UITapGestureRecognizer) {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseOut, animations: {

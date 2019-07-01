@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>460117638985-mvooct67p2utnvqspt0tlgbj0noc7t0j.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.460117638985-mvooct67p2utnvqspt0tlgbj0noc7t0j</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDQduqBz9dI1txWC6L_FI1DB5h16Eb4kBA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>460117638985</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.GeeTeam.Pelagic</string>
+	<key>PROJECT_ID</key>
+	<string>pelagic-dfd51</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pelagic-dfd51.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:460117638985:ios:eef0af7bedc6ec52</string>
+	<key>DATABASE_URL</key>
+	<string>https://pelagic-dfd51.firebaseio.com</string>
+</dict>
+</plist>
