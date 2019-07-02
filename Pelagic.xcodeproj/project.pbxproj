@@ -21,6 +21,7 @@
 		3660455222B70AF400C411D8 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3660455122B70AF400C411D8 /* CardView.swift */; };
 		3685CFEE22C52B4D00F7F20C /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685CFED22C52B4D00F7F20C /* RegistrationViewModel.swift */; };
 		3685CFF222C57B2600F7F20C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3685CFF122C57B2600F7F20C /* GoogleService-Info.plist */; };
+		3685CFF422CAEBF800F7F20C /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685CFF322CAEBF800F7F20C /* Bindable.swift */; };
 		36D6E6DC22B9679D00545DD9 /* Advertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D6E6DB22B9679D00545DD9 /* Advertiser.swift */; };
 		36FC94DE22B4287E007B4A87 /* HomeButtonControlsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FC94DD22B4287E007B4A87 /* HomeButtonControlsStackView.swift */; };
 		F12521F61054BE8EBAFE9D42 /* Pods_Pelagic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6C2EB192A8C52E0460D56EA /* Pods_Pelagic.framework */; };
@@ -44,6 +45,7 @@
 		3660455122B70AF400C411D8 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		3685CFED22C52B4D00F7F20C /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		3685CFF122C57B2600F7F20C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3685CFF322CAEBF800F7F20C /* Bindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
 		36D6E6DB22B9679D00545DD9 /* Advertiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertiser.swift; sourceTree = "<group>"; };
 		36FC94DD22B4287E007B4A87 /* HomeButtonControlsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButtonControlsStackView.swift; sourceTree = "<group>"; };
 		45377E799C77EC72B8FCD508 /* Pods-Pelagic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pelagic.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pelagic/Pods-Pelagic.release.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 			children = (
 				360A160022B2FA9400F93DD4 /* HomeViewController.swift */,
 				363DE57F22C17B3C00492415 /* RegistrationController.swift */,
+				3685CFF322CAEBF800F7F20C /* Bindable.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3685CFF422CAEBF800F7F20C /* Bindable.swift in Sources */,
 				360A160122B2FA9400F93DD4 /* HomeViewController.swift in Sources */,
 				363DE58222C1846C00492415 /* CustomTextField.swift in Sources */,
 				3685CFEE22C52B4D00F7F20C /* RegistrationViewModel.swift in Sources */,
