@@ -10,7 +10,9 @@ import JGProgressHUD
 class RegistrationController: UIViewController {
     
     let registrationViewModel = RegistrationViewModel()
+    let registeringHUD        = JGProgressHUD(style: .dark)
     
+    // MARK: View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,10 +25,10 @@ class RegistrationController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+        // 1)
     }
     
-    // UI Components
+    // MARK: UI Components
     let selectPhotoButton: UIButton = {
        let button = UIButton(type: .system)
        button.setTitle("Select Photo", for: .normal)
@@ -103,6 +105,16 @@ class RegistrationController: UIViewController {
         registrationViewModel.bindableImage.bind { [unowned self] (image) in
            self.selectPhotoButton.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
         }
+        
+        registrationViewModel.bindableIsRegistering.bind { [unowned self] (isRegistering) in
+            
+            if isRegistering == true {
+                self.registeringHUD.textLabel.text = "Registering..."
+                self.registeringHUD.show(in: self.view)
+            } else {
+                self.registeringHUD.dismiss()
+            }
+        }
     }
     
     //MARK: Private Methods
@@ -132,14 +144,31 @@ class RegistrationController: UIViewController {
     }
     
     fileprivate func setupNotificationsObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShow), name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    fileprivate func showHUDWithError(error: Error) {
+        registeringHUD.dismiss()
+        let hud = JGProgressHUD(style: .dark)
+        hud.textLabel.text =  "Registration Failed"
+        hud.detailTextLabel.text = error.localizedDescription
+        hud.show(in: self.view)
+        hud.dismiss(afterDelay: 4)
     }
     
     // MARK: @Objc Private Methods
     
     @objc fileprivate func handleRegister() {
-        
+        self.handleTapDismissKeyboard()
+        registrationViewModel.performRegistration { [weak self] (err) in
+            if let err = err {
+                self?.showHUDWithError(error: err)
+                return
+            }
+            print("Finished Registering our user")
+        }
+        // 3)
     }
     
     @objc fileprivate func handleKeyboardHide(gesture: UITapGestureRecognizer) {
@@ -147,7 +176,7 @@ class RegistrationController: UIViewController {
             self.view.transform = .identity
         })
     }
-    @objc fileprivate func handleTapDismissKeyboard(gesture: UITapGestureRecognizer) {
+    @objc fileprivate func handleTapDismissKeyboard() {
         self.view.endEditing(true)
     }
     
@@ -184,3 +213,19 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
         dismiss(animated: true, completion: nil)
     }
 }
+
+// MARK: Notes
+/*
+ 
+    1) Code Commented Out. If we have this code in the viewDisappear method, the keyboard will not shift the view up and it will look clunky
+    // NotificationCenter.default.removeObserver(self)
+ 
+    2) You can only upload images to Firebase Storage once you are authorized
+ 
+    3) Code Removed. We don't want to use this in this function. Extra Code is uneccessary
+         registeringHUD.textLabel.text = "Registering"
+         registeringHUD.show(in: view)
+ 
+    4) Dismisses the registering HUD
+ 
+ */
