@@ -5,11 +5,12 @@
 
 import UIKit
 import Firebase
+import JGProgressHUD
 
 class HomeViewController: UIViewController {
     
     let topStackView     = TopNavigationStackView()
-    let buttonsStackView = HomeButtonControlsStackView()
+    let bottomControlsStackView = HomeButtonControlsStackView()
     
     let cardsDeckView = UIView()
     // 5)
@@ -19,24 +20,37 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         topStackView.settingsButton.addTarget(self, action: #selector(handleSettings), for: .touchUpInside)
-
+        bottomControlsStackView.refreshButton.addTarget(self, action: #selector(handleRefresh), for: .touchUpInside)
         setupLayout()
         //bsetupDummyCards()
         fetchUsersFromFireStore()
     }
     
-    @objc func handleSettings() {
+    // MARK: @Objc Methods
+    
+    @objc fileprivate func handleRefresh() {
+        self.fetchUsersFromFireStore()
+    }
+    
+    @objc fileprivate func handleSettings() {
         let registrationController = RegistrationController()
         present(registrationController, animated: true)
     }
     
-    // MARK: - Fileprivate Methods
+    // MARK: Fileprivate Methods
+    
+    var lastFetchedUser: User?
     
     fileprivate func fetchUsersFromFireStore() {
         
-//        let query = Firestore.firestore().collection("users").whereField("age", isLessThan: 31)
+        let hud = JGProgressHUD(style: .dark)
+        hud.textLabel.text = "Refreshing..."
+        hud.show(in: view)
         
-        Firestore.firestore().collection("users").getDocuments { (snapShot, error) in
+        // pagination will be implemented here (2 users at a time)
+        let query = Firestore.firestore().collection("users").order(by: "uid").start(after: [lastFetchedUser?.uid ?? ""]).limit(to: 2)
+        query.getDocuments { (snapShot, error) in
+            hud.dismiss()
             if let err = error {
                 print("Failed to fetch users:", err)
                 return
@@ -46,9 +60,19 @@ class HomeViewController: UIViewController {
                 let user = User(dictionary: userDictionary)
                 self.cardViewModels.append(user.toCardViewModel())
                 // 6)
+                self.lastFetchedUser = user // this will be the last user
+                self.setupCardFromUser(user: user)
             })
-            self.setupFirestoreUserCards()
+//            self.setupFirestoreUserCards()
         }
+    }
+    
+    fileprivate func setupCardFromUser(user: User) {
+        let cardView = CardView(frame: .zero)
+        cardView.cardViewModel = user.toCardViewModel()
+        cardsDeckView.addSubview(cardView)
+        cardsDeckView.sendSubviewToBack(cardView)
+        cardView.fillSuperview()
     }
     
     fileprivate func setupFirestoreUserCards() {
@@ -65,7 +89,7 @@ class HomeViewController: UIViewController {
     fileprivate func setupLayout() {
         // 1)
         view.backgroundColor = .white
-        let overallStackView = UIStackView(arrangedSubviews: [topStackView, cardsDeckView, buttonsStackView])
+        let overallStackView = UIStackView(arrangedSubviews: [topStackView, cardsDeckView, bottomControlsStackView])
         view.addSubview(overallStackView)
         
         overallStackView.axis = .vertical
