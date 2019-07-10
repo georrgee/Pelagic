@@ -33,6 +33,9 @@ class HomeViewController: UIViewController {
     // MARK: - Fileprivate Methods
     
     fileprivate func fetchUsersFromFireStore() {
+        
+//        let query = Firestore.firestore().collection("users").whereField("age", isLessThan: 31)
+        
         Firestore.firestore().collection("users").getDocuments { (snapShot, error) in
             if let err = error {
                 print("Failed to fetch users:", err)
@@ -44,11 +47,11 @@ class HomeViewController: UIViewController {
                 self.cardViewModels.append(user.toCardViewModel())
                 // 6)
             })
-            self.setupDummyCards()
+            self.setupFirestoreUserCards()
         }
     }
     
-    fileprivate func setupDummyCards() { 
+    fileprivate func setupFirestoreUserCards() {
         cardViewModels.forEach { (cardViewVM) in
             
             let cardView = CardView(frame: .zero)
