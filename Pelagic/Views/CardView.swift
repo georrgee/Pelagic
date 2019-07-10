@@ -4,6 +4,7 @@
 //  Copyright © 2019 GeeTeam. All rights reserved.
 
 import UIKit
+import SDWebImage
 
 class CardView: UIView {
     
@@ -18,7 +19,11 @@ class CardView: UIView {
     var cardViewModel: CardViewModel! {
         didSet {
             let imageName = cardViewModel.imageNames.first ?? "" // 5)
-            imageView.image = UIImage(named: imageName)
+            // 9) & 10)
+            if let url = URL(string: imageName) {
+                imageView.sd_setImage(with: url)
+            }
+            
             informationLabel.attributedText = cardViewModel.attributedText
             informationLabel.textAlignment = cardViewModel.textAlignment
             
@@ -217,6 +222,9 @@ class CardView: UIView {
  
         8) Note to self.
            - (Doesnt matter which you use) unowned/weak self = to avoid retain cycles; Every self must be optional.
-
  
+        9) Code Removed. We are now going to load the image based on the URL
+            //imageView.image = UIImage(named: imageName)
+ 
+        10) Note: We have to load our image using some kind of url... That is where SDWebImage framework comes to the rescue!
  */

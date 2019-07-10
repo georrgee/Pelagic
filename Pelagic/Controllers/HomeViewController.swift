@@ -4,6 +4,7 @@
 //  Copyright © 2019 GeeTeam. All rights reserved.
 
 import UIKit
+import Firebase
 
 class HomeViewController: UIViewController {
     
@@ -11,19 +12,8 @@ class HomeViewController: UIViewController {
     let buttonsStackView = HomeButtonControlsStackView()
     
     let cardsDeckView = UIView()
-    
-    let cardViewModel: [CardViewModel] = { // 3)
-        let producers = [
-            User(name: "Vicki", age: 26, profession: "Model", imageNames: ["vicki", "vicki2", "vicki3", "vicki4"]),
-            User(name: "Shaida", age: 33, profession: "Professor", imageNames: ["shaida"]),
-            Advertiser(title: "Dos Flavors!", brandName: "Sour Patch", posterPhotoName: "gummy_bear_ad"),
-            User(name: "Ana", age: 33, profession: "Entrepreneur", imageNames: ["ana", "ana2"]),
-            User(name: "Ashley", age: 22, profession: "Adult Entertainer", imageNames: ["wife", "wife2", "wife3"])
-        ] as [ProducesCardViewModel]
-        
-        let viewModels = producers.map{$0.toCardViewModel() }
-        return viewModels
-    }()
+    // 5)
+    var cardViewModels = [CardViewModel]() // empty array
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +21,8 @@ class HomeViewController: UIViewController {
         topStackView.settingsButton.addTarget(self, action: #selector(handleSettings), for: .touchUpInside)
 
         setupLayout()
-        setupDummyCards()
+        //bsetupDummyCards()
+        fetchUsersFromFireStore()
     }
     
     @objc func handleSettings() {
@@ -39,21 +30,38 @@ class HomeViewController: UIViewController {
         present(registrationController, animated: true)
     }
     
-    fileprivate func setupDummyCards() {
-        cardViewModel.forEach { (cardViewVM) in
+    // MARK: - Fileprivate Methods
+    
+    fileprivate func fetchUsersFromFireStore() {
+        Firestore.firestore().collection("users").getDocuments { (snapShot, error) in
+            if let err = error {
+                print("Failed to fetch users:", err)
+                return
+            }
+            snapShot?.documents.forEach({ (docSnapshot) in
+                let userDictionary = docSnapshot.data()
+                let user = User(dictionary: userDictionary)
+                self.cardViewModels.append(user.toCardViewModel())
+                // 6)
+            })
+            self.setupDummyCards()
+        }
+    }
+    
+    fileprivate func setupDummyCards() { 
+        cardViewModels.forEach { (cardViewVM) in
             
             let cardView = CardView(frame: .zero)
             cardView.cardViewModel = cardViewVM
-            //4
+            // 4)
             cardsDeckView.addSubview(cardView)
             cardView.fillSuperview()
         } // 2)
     }
-
-    // MARK: - Fileprivate Methods
     
     fileprivate func setupLayout() {
         // 1)
+        view.backgroundColor = .white
         let overallStackView = UIStackView(arrangedSubviews: [topStackView, cardsDeckView, buttonsStackView])
         view.addSubview(overallStackView)
         
@@ -107,5 +115,23 @@ class HomeViewController: UIViewController {
              cardView.imageView.image = UIImage(named: cardViewVM.imageName)
              cardView.informationLabel.attributedText = cardViewVM.attributedText
              cardView.informationLabel.textAlignment = cardViewVM.textAlignment
+ 
+ 5) Code Removed. We do not need to use the dummy data anymore
+ 
+     //    let cardViewModel: [CardViewModel] = { // 3)
+     //        let producers = [
+     //            User(name: "Vicki", age: 26, profession: "Model", imageNames: ["vicki", "vicki2", "vicki3", "vicki4"]),
+     //            User(name: "Shaida", age: 33, profession: "Professor", imageNames: ["shaida"]),
+     //            Advertiser(title: "Dos Flavors!", brandName: "Sour Patch", posterPhotoName: "gummy_bear_ad"),
+     //            User(name: "Ana", age: 33, profession: "Entrepreneur", imageNames: ["ana", "ana2"]),
+     //            User(name: "Ashley", age: 22, profession: "Adult Entertainer", imageNames: ["wife", "wife2", "wife3"])
+     //        ] as [ProducesCardViewModel]
+     //
+     //        let viewModels = producers.map{$0.toCardViewModel() }
+     //        return viewModels
+     //    }()
+ 
+ 6) Code Removed.
+    print(user.name, user.imageNames)
  */
 

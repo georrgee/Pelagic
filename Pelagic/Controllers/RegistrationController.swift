@@ -136,7 +136,7 @@ class RegistrationController: UIViewController {
     lazy var stackView = UIStackView(arrangedSubviews: [selectPhotoButton, fullNameTextField, emailTextField, passwordTextField, registerButton])
     
     fileprivate func setupLayout() {
-        view.addSubview(stackView)
+        view.backgroundColor = .white
         stackView.axis = .vertical
         stackView.spacing = 8
         stackView.anchor(top: nil, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50))
