@@ -9,8 +9,8 @@ import Firebase
 class RegistrationViewModel {
     
     var bindableIsRegistering = Bindable<Bool>()
-    var bindableImage = Bindable<UIImage>()
-    var bindableIsFormValid = Bindable<Bool>()
+    var bindableImage         = Bindable<UIImage>()
+    var bindableIsFormValid   = Bindable<Bool>()
     
     var fullName: String?  { didSet{ checkFormValidity() }}
     var email:    String?  { didSet{ checkFormValidity() }}

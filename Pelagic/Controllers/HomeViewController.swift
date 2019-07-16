@@ -22,7 +22,6 @@ class HomeViewController: UIViewController {
         topStackView.settingsButton.addTarget(self, action: #selector(handleSettings), for: .touchUpInside)
         bottomControlsStackView.refreshButton.addTarget(self, action: #selector(handleRefresh), for: .touchUpInside)
         setupLayout()
-        //bsetupDummyCards()
         fetchUsersFromFireStore()
     }
     
@@ -33,15 +32,16 @@ class HomeViewController: UIViewController {
     }
     
     @objc fileprivate func handleSettings() {
-        let registrationController = RegistrationController()
-        present(registrationController, animated: true)
+        let settingsController = SettingsController()
+        let navigationController = UINavigationController(rootViewController: settingsController)
+        present(navigationController, animated: true)
     }
     
     // MARK: Fileprivate Methods
     
     var lastFetchedUser: User?
     
-    fileprivate func fetchUsersFromFireStore() {
+    fileprivate func fetchUsersFromFireStore() { // when user presses the refresh button, this logic will fetch more users to populate
         
         let hud = JGProgressHUD(style: .dark)
         hud.textLabel.text = "Refreshing..."

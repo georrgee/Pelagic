@@ -13,6 +13,7 @@
 		360A160622B2FA9500F93DD4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 360A160522B2FA9500F93DD4 /* Assets.xcassets */; };
 		360A160922B2FA9500F93DD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 360A160722B2FA9500F93DD4 /* LaunchScreen.storyboard */; };
 		360A161222B2FC8500F93DD4 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360A161122B2FC8500F93DD4 /* UIView+Layout.swift */; };
+		3621AFD922DE7BB90040333C /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3621AFD822DE7BB90040333C /* SettingsController.swift */; };
 		363DE58022C17B3C00492415 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363DE57F22C17B3C00492415 /* RegistrationController.swift */; };
 		363DE58222C1846C00492415 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363DE58122C1846C00492415 /* CustomTextField.swift */; };
 		365AD4BE22B82220001FE4FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365AD4BD22B82220001FE4FB /* User.swift */; };
@@ -37,6 +38,7 @@
 		360A160822B2FA9500F93DD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		360A160A22B2FA9500F93DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		360A161122B2FC8500F93DD4 /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
+		3621AFD822DE7BB90040333C /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		363DE57F22C17B3C00492415 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		363DE58122C1846C00492415 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		365AD4BD22B82220001FE4FB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				360A160022B2FA9400F93DD4 /* HomeViewController.swift */,
 				363DE57F22C17B3C00492415 /* RegistrationController.swift */,
 				3685CFF322CAEBF800F7F20C /* Bindable.swift */,
+				3621AFD822DE7BB90040333C /* SettingsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				360A161222B2FC8500F93DD4 /* UIView+Layout.swift in Sources */,
 				365AD4C222B85469001FE4FB /* CardViewModel.swift in Sources */,
 				3660455222B70AF400C411D8 /* CardView.swift in Sources */,
+				3621AFD922DE7BB90040333C /* SettingsController.swift in Sources */,
 				3660454F22B4B26D00C411D8 /* TopNavigationStackView.swift in Sources */,
 				363DE58022C17B3C00492415 /* RegistrationController.swift in Sources */,
 				365AD4BE22B82220001FE4FB /* User.swift in Sources */,

@@ -11,6 +11,8 @@ class RegistrationController: UIViewController {
     
     let registrationViewModel = RegistrationViewModel()
     let registeringHUD        = JGProgressHUD(style: .dark)
+    lazy var stackView        = UIStackView(arrangedSubviews: [selectPhotoButton, fullNameTextField, emailTextField, passwordTextField, registerButton])
+
     
     // MARK: View Life Cycles
     override func viewDidLoad() {
@@ -37,18 +39,11 @@ class RegistrationController: UIViewController {
        button.setTitleColor(.black, for: .normal)
        button.heightAnchor.constraint(equalToConstant: 275).isActive = true
        button.layer.cornerRadius = 16
-        
        button.addTarget(self, action: #selector(handleSelectPhoto), for: .touchUpInside)
        button.imageView?.contentMode = .scaleAspectFill
        button.clipsToBounds = true 
        return button
     }()
-    
-    @objc func handleSelectPhoto() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        present(imagePickerController, animated: true)
-    }
     
     let fullNameTextField: CustomTextField = {
         let textField = CustomTextField(padding: 24)
@@ -132,9 +127,7 @@ class RegistrationController: UIViewController {
         view.layer.addSublayer(gradientLayer)
         gradientLayer.frame = view.bounds
     }
-    
-    lazy var stackView = UIStackView(arrangedSubviews: [selectPhotoButton, fullNameTextField, emailTextField, passwordTextField, registerButton])
-    
+
     fileprivate func setupLayout() {
         view.backgroundColor = .white
         stackView.axis = .vertical
@@ -196,6 +189,12 @@ class RegistrationController: UIViewController {
         } else if textField == passwordTextField {
             registrationViewModel.password = textField.text
         }
+    }
+    
+    @objc func handleSelectPhoto() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true)
     }
 }
 
