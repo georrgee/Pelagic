@@ -4,13 +4,17 @@
 //  Copyright © 2019 GeeTeam. All rights reserved.
 
 import UIKit
+import Firebase
+import JGProgressHUD
+import SDWebImage
 
 class SettingsController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    // MARK: Instance Properties
+    // MARK: Instance Properties (Indeed Accessible)
     lazy var imageButton1 = createButton(selector: #selector(handleSelectPhoto))
     lazy var imageButton2 = createButton(selector: #selector(handleSelectPhoto))
     lazy var imageButton3 = createButton(selector: #selector(handleSelectPhoto))
+    var user: User?
     
     lazy var header: UIView = {
         let header = UIView()
@@ -39,6 +43,36 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
         tableView.backgroundColor = UIColor(white: 0.95, alpha: 1)
         tableView.tableFooterView = UIView() // blank uiview that get rid of the horizontal lines
         tableView.keyboardDismissMode = .interactive
+        
+        fetchCurrentUser()
+        
+    }
+    
+    fileprivate func fetchCurrentUser() { // Fetching Firestore Data (fetching current user)
+        
+        guard let user_id = Auth.auth().currentUser?.uid else { return }
+        Firestore.firestore().collection("users").document(user_id).getDocument { (snapshot, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            print(snapshot?.data())
+            
+            guard let dictionary = snapshot?.data() else { return }
+            self.user = User(dictionary: dictionary)
+            self.loadUserPhotos()
+            
+            self.tableView.reloadData() // reload the data, you call the table view functions one more time
+        }
+    }
+    
+    fileprivate func loadUserPhotos() {
+        
+        guard let imageUrl = user?.imageUrl1, let url = URL(string: imageUrl) else { return }
+        
+        SDWebImageManager.shared().loadImage(with: url, options: .continueInBackground, progress: nil) { (image, _, _, _, _, _) in
+            self.imageButton1.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
+        }
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -85,10 +119,15 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
         switch indexPath.section {
         case 1:
             cell.textField.placeholder = "Enter Name"
+            cell.textField.text = user?.name
         case 2:
             cell.textField.placeholder = "Enter Profession"
+            cell.textField.text = user?.profession
         case 3:
             cell.textField.placeholder = "Enter Age"
+            if let age = user?.age {
+                cell.textField.placeholder = String(age)
+            }
         default:
             cell.textField.placeholder = "Enter Bio"
         }
