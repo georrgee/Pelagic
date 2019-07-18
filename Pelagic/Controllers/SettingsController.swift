@@ -68,10 +68,22 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
     
     fileprivate func loadUserPhotos() {
         
-        guard let imageUrl = user?.imageUrl1, let url = URL(string: imageUrl) else { return }
+        if let imageUrl = user?.imageUrl1, let url = URL(string: imageUrl) {
+            SDWebImageManager.shared().loadImage(with: url, options: .continueInBackground, progress: nil) { (image, _, _, _, _, _) in
+                self.imageButton1.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
+            }
+        }
         
-        SDWebImageManager.shared().loadImage(with: url, options: .continueInBackground, progress: nil) { (image, _, _, _, _, _) in
-            self.imageButton1.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
+        if let imageUrl = user?.imageUrl2, let url = URL(string: imageUrl) {
+            SDWebImageManager.shared().loadImage(with: url, options: .continueInBackground, progress: nil) { (image, _, _, _, _, _) in
+                self.imageButton2.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
+            }
+        }
+        
+        if let imageUrl = user?.imageUrl3, let url = URL(string: imageUrl) {
+            SDWebImageManager.shared().loadImage(with: url, options: .continueInBackground, progress: nil) { (image, _, _, _, _, _) in
+                self.imageButton3.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
+            }
         }
     }
     
@@ -159,6 +171,41 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
         let imageButton = (picker as? CustomImagePickerController)?.imageButton
         imageButton?.setImage(selectedImage?.withRenderingMode(.alwaysOriginal), for: .normal)
         dismiss(animated: true)
+        
+        let fileName = UUID().uuidString
+        let reference = Storage.storage().reference(withPath: "/images/\(fileName)")
+        guard let uploadData = selectedImage?.jpegData(compressionQuality: 0.75) else { return }
+        
+        let hud = JGProgressHUD(style: .dark)
+        hud.textLabel.text = "Uploading Image..."
+        hud.show(in: view)
+        
+        reference.putData(uploadData, metadata: nil) { (nil, error) in
+            if let err = error {
+                hud.dismiss()
+                print("Failed to Upload Image to Storage!", err)
+                return
+            }
+            print("Finished uploading image!")
+            
+            reference.downloadURL(completion: { (url, error) in
+                
+                hud.dismiss()
+                if let err = error {
+                    print("Failed to retrieve download url!", err)
+                    return
+                }
+                print("Finished getting download url:", url?.absoluteString ?? "")
+                
+                if imageButton == self.imageButton1 {
+                    self.user?.imageUrl1 = url?.absoluteString
+                } else if imageButton == self.imageButton2 {
+                    self.user?.imageUrl2 = url?.absoluteString
+                } else {
+                    self.user?.imageUrl3 = url?.absoluteString
+                }
+          })
+        }
     }
     
     func createButton(selector: Selector) -> UIButton {
@@ -194,14 +241,16 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
     }
     
     @objc fileprivate func handleSave() {
-        print("Save Button Tapped: Settings are saved now")
         
         guard let user_id = Auth.auth().currentUser?.uid else { return }
+        
         let docData: [String:Any] = [
-            "uid" : user_id,
-            "fullName" : user?.name ?? "",
+            "uid"       : user_id,
+            "fullName"  : user?.name ?? "",
             "imageUrl1" : user?.imageUrl1 ?? "",
-            "age": user?.age ?? -1,
+            "imageUrl2" : user?.imageUrl2 ?? "",
+            "imageUrl3" : user?.imageUrl3 ?? "",
+            "age"       : user?.age ?? -1,
             "profession": user?.profession ?? ""
         ]
         
