@@ -120,11 +120,14 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
         case 1:
             cell.textField.placeholder = "Enter Name"
             cell.textField.text = user?.name
+            cell.textField.addTarget(self, action: #selector(handleNameChange), for: .editingChanged)
         case 2:
             cell.textField.placeholder = "Enter Profession"
             cell.textField.text = user?.profession
+            cell.textField.addTarget(self, action: #selector(handleProfessionChange), for: .editingChanged)
         case 3:
             cell.textField.placeholder = "Enter Age"
+            cell.textField.addTarget(self, action: #selector(handleAgeChange), for: .editingChanged)
             if let age = user?.age {
                 cell.textField.placeholder = String(age)
             }
@@ -133,6 +136,18 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
         }
         
         return cell
+    }
+    
+    @objc func handleNameChange(textField: UITextField) {
+        self.user?.name = textField.text
+    }
+    
+    @objc func handleProfessionChange(textField: UITextField) {
+        self.user?.profession = textField.text
+    }
+    
+    @objc func handleAgeChange(textField: UITextField) {
+        self.user?.age = Int(textField.text ?? "")
     }
     
     
@@ -179,7 +194,29 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
     }
     
     @objc fileprivate func handleSave() {
+        print("Save Button Tapped: Settings are saved now")
         
+        guard let user_id = Auth.auth().currentUser?.uid else { return }
+        let docData: [String:Any] = [
+            "uid" : user_id,
+            "fullName" : user?.name ?? "",
+            "imageUrl1" : user?.imageUrl1 ?? "",
+            "age": user?.age ?? -1,
+            "profession": user?.profession ?? ""
+        ]
+        
+        let hud = JGProgressHUD(style: .dark)
+        hud.textLabel.text = "Saving..."
+        hud.show(in: view)
+        
+        Firestore.firestore().collection("users").document(user_id).setData(docData) { (error) in
+            hud.dismiss()
+            if let err = error {
+                print("Failed to save user info in settings",err)
+                return
+            }
+            print("Finished saving user info")
+        }
     }
     
     @objc fileprivate func handleLogout() {
