@@ -20,6 +20,7 @@
 		365AD4C222B85469001FE4FB /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365AD4C122B85469001FE4FB /* CardViewModel.swift */; };
 		3660454F22B4B26D00C411D8 /* TopNavigationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3660454E22B4B26D00C411D8 /* TopNavigationStackView.swift */; };
 		3660455222B70AF400C411D8 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3660455122B70AF400C411D8 /* CardView.swift */; };
+		366C78A722E21C97003A2952 /* AgeRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C78A622E21C97003A2952 /* AgeRangeCell.swift */; };
 		3685CFEE22C52B4D00F7F20C /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685CFED22C52B4D00F7F20C /* RegistrationViewModel.swift */; };
 		3685CFF222C57B2600F7F20C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3685CFF122C57B2600F7F20C /* GoogleService-Info.plist */; };
 		3685CFF422CAEBF800F7F20C /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685CFF322CAEBF800F7F20C /* Bindable.swift */; };
@@ -46,6 +47,7 @@
 		365AD4C122B85469001FE4FB /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 		3660454E22B4B26D00C411D8 /* TopNavigationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopNavigationStackView.swift; sourceTree = "<group>"; };
 		3660455122B70AF400C411D8 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		366C78A622E21C97003A2952 /* AgeRangeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeRangeCell.swift; sourceTree = "<group>"; };
 		3685CFED22C52B4D00F7F20C /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		3685CFF122C57B2600F7F20C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3685CFF322CAEBF800F7F20C /* Bindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				3660455122B70AF400C411D8 /* CardView.swift */,
 				363DE58122C1846C00492415 /* CustomTextField.swift */,
 				36FEB3AA22DFDFD200FC4170 /* SettingsCell.swift */,
+				366C78A622E21C97003A2952 /* AgeRangeCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				360A15FF22B2FA9400F93DD4 /* AppDelegate.swift in Sources */,
 				36D6E6DC22B9679D00545DD9 /* Advertiser.swift in Sources */,
 				36FC94DE22B4287E007B4A87 /* HomeButtonControlsStackView.swift in Sources */,
+				366C78A722E21C97003A2952 /* AgeRangeCell.swift in Sources */,
 				360A161222B2FC8500F93DD4 /* UIView+Layout.swift in Sources */,
 				365AD4C222B85469001FE4FB /* CardViewModel.swift in Sources */,
 				3660455222B70AF400C411D8 /* CardView.swift in Sources */,
