@@ -8,6 +8,10 @@ import Firebase
 import JGProgressHUD
 import SDWebImage
 
+protocol SettingsControllerDelegate {
+    func didSaveSettings()
+}
+
 class SettingsController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: Instance Properties (Indeed Accessible)
@@ -15,6 +19,7 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
     lazy var imageButton2 = createButton(selector: #selector(handleSelectPhoto))
     lazy var imageButton3 = createButton(selector: #selector(handleSelectPhoto))
     var user: User?
+    var settingsControllerDelegate: SettingsControllerDelegate?
     
     lazy var header: UIView = {
         let header = UIView()
@@ -138,7 +143,7 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
     @objc fileprivate func handleMaxRange(slider: UISlider) {
         let indexPath = IndexPath(row: 0, section: 5)
         let ageRangeCell = tableView.cellForRow(at: indexPath) as! AgeRangeCell
-        ageRangeCell.maxLabel.text = "Min: \(Int(slider.value))"
+        ageRangeCell.maxLabel.text = "Max: \(Int(slider.value))"
         
         self.user?.maxSeekAge = Int(slider.value)
 
@@ -298,6 +303,10 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
                 return
             }
             print("Finished saving user info")
+            self.dismiss(animated: true, completion: {
+                print("Dismissal complete")
+                self.settingsControllerDelegate?.didSaveSettings()
+            })
         }
     }
     

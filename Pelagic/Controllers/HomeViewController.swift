@@ -7,7 +7,7 @@ import UIKit
 import Firebase
 import JGProgressHUD
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, SettingsControllerDelegate {
     
     let topStackView     = TopNavigationStackView()
     let bottomControlsStackView = HomeButtonControlsStackView()
@@ -22,7 +22,25 @@ class HomeViewController: UIViewController {
         topStackView.settingsButton.addTarget(self, action: #selector(handleSettings), for: .touchUpInside)
         bottomControlsStackView.refreshButton.addTarget(self, action: #selector(handleRefresh), for: .touchUpInside)
         setupLayout()
-        fetchUsersFromFireStore()
+        
+        fetchCurrentUser()
+    }
+    
+    fileprivate var user: User?
+    
+    fileprivate func fetchCurrentUser() {
+        
+        guard let user_id = Auth.auth().currentUser?.uid else { return }
+        Firestore.firestore().collection("users").document(user_id).getDocument { (snapshot, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let dictionary = snapshot?.data() else { return }
+            self.user = User(dictionary: dictionary)
+            self.fetchUsersFromFireStore()
+        }
     }
     
     // MARK: @Objc Methods
@@ -33,8 +51,14 @@ class HomeViewController: UIViewController {
     
     @objc fileprivate func handleSettings() {
         let settingsController = SettingsController()
+        settingsController.settingsControllerDelegate = self
         let navigationController = UINavigationController(rootViewController: settingsController)
         present(navigationController, animated: true)
+    }
+    
+    func didSaveSettings() {
+        print("Settings Delegate Has Notified You That you are in Home Controller!!")
+        fetchCurrentUser()
     }
     
     // MARK: Fileprivate Methods
@@ -47,8 +71,10 @@ class HomeViewController: UIViewController {
         hud.textLabel.text = "Refreshing..."
         hud.show(in: view)
         
-        // pagination will be implemented here (2 users at a time)
-        let query = Firestore.firestore().collection("users").order(by: "uid").start(after: [lastFetchedUser?.uid ?? ""]).limit(to: 2)
+        guard let mininmumAge = user?.minSeekAge, let maximumAge = user?.maxSeekAge else { return }
+        
+        // 7)
+        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: mininmumAge).whereField("age", isLessThanOrEqualTo: maximumAge)
         query.getDocuments { (snapShot, error) in
             hud.dismiss()
             if let err = error {
@@ -160,5 +186,9 @@ class HomeViewController: UIViewController {
  
  6) Code Removed.
     print(user.name, user.imageNames)
+ 
+ 7) Code removed. This is pagination. Refresh and fetches 2 users. Pagination will be implemented here (2 users at a time)
+
+    .order(by: "uid").start(after: [lastFetchedUser?.uid ?? ""]).limit(to: 2)
  */
 
