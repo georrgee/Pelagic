@@ -11,9 +11,14 @@ class RegistrationController: UIViewController {
     
     let registrationViewModel = RegistrationViewModel()
     let registeringHUD        = JGProgressHUD(style: .dark)
-    lazy var stackView        = UIStackView(arrangedSubviews: [selectPhotoButton, fullNameTextField, emailTextField, passwordTextField, registerButton])
-
+    lazy var overallStackView = UIStackView(arrangedSubviews: [selectPhotoButton, verticalStackView])
     
+    var delegate: LoginControllerDelegate?
+    lazy var selectPhotoButtonWidthAnchor = selectPhotoButton.widthAnchor.constraint(equalToConstant: 275)
+    lazy var selectPhotoButtonHeightAnchor = selectPhotoButton.heightAnchor.constraint(equalToConstant: 275)
+    
+    let gradientLayer = CAGradientLayer()
+
     // MARK: View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +51,7 @@ class RegistrationController: UIViewController {
     }()
     
     let fullNameTextField: CustomTextField = {
-        let textField = CustomTextField(padding: 24)
+        let textField = CustomTextField(padding: 24, height: 50)
         textField.placeholder = "Full Name"
         textField.backgroundColor = .white
         textField.addTarget(self, action: #selector(handleTextChange), for: .editingChanged)
@@ -55,7 +60,7 @@ class RegistrationController: UIViewController {
     }()
     
     let emailTextField: CustomTextField = {
-        let textField = CustomTextField(padding: 24)
+        let textField = CustomTextField(padding: 24, height: 50)
         textField.placeholder = "Email"
         textField.backgroundColor = .white
         textField.addTarget(self, action: #selector(handleTextChange), for: .editingChanged)
@@ -64,7 +69,7 @@ class RegistrationController: UIViewController {
     }()
     
     let passwordTextField: CustomTextField = {
-        let textField = CustomTextField(padding: 24)
+        let textField = CustomTextField(padding: 24, height: 50)
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true
         textField.backgroundColor = .white
@@ -85,6 +90,26 @@ class RegistrationController: UIViewController {
         
         button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         return button
+    }()
+    
+    let goToLoginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Already have an account?", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
+        button.addTarget(self, action: #selector(handleGoToLogin), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var verticalStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            fullNameTextField,
+            emailTextField,
+            passwordTextField,
+            registerButton])
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        return stackView
     }()
     
     fileprivate func setupRegistrationViewModelObserver() {
@@ -119,9 +144,9 @@ class RegistrationController: UIViewController {
     }
     
     fileprivate func setupGradientBackground() {
-        let gradientLayer = CAGradientLayer()
-        let topColor    = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-        let bottomColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
+        let topColor = #colorLiteral(red: 0.9921568627, green: 0.3568627451, blue: 0.3725490196, alpha: 1)
+        let bottomColor = #colorLiteral(red: 0.8980392157, green: 0, blue: 0.4470588235, alpha: 1)
+        // make sure to user cgColor
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0, 1]
         view.layer.addSublayer(gradientLayer)
@@ -129,11 +154,16 @@ class RegistrationController: UIViewController {
     }
 
     fileprivate func setupLayout() {
-        view.backgroundColor = .white
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        stackView.anchor(top: nil, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50))
-        stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        navigationController?.navigationBar.isHidden = true
+        
+        view.addSubview(overallStackView)
+        overallStackView.axis = .vertical
+        overallStackView.spacing = 8
+        overallStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 0, left: 50, bottom: 0, right: 50))
+        overallStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        view.addSubview(goToLoginButton)
+        goToLoginButton.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
     }
     
     fileprivate func setupNotificationsObserver() {
@@ -176,7 +206,7 @@ class RegistrationController: UIViewController {
     @objc fileprivate func handleKeyboardShow(notification: Notification) {
         guard let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = value.cgRectValue
-        let bottomSpace = view.frame.height - stackView.frame.origin.y - stackView.frame.height // 3)
+        let bottomSpace = view.frame.height - overallStackView.frame.origin.y - overallStackView.frame.height // 3)
         let difference = keyboardFrame.height - bottomSpace
         self.view.transform = CGAffineTransform(translationX: 0, y: -difference - 8)
     }
@@ -196,6 +226,12 @@ class RegistrationController: UIViewController {
         imagePickerController.delegate = self
         present(imagePickerController, animated: true)
     }
+    
+    @objc fileprivate func handleGoToLogin() {
+        let loginController = LoginController()
+        loginController.delegate = delegate
+        navigationController?.pushViewController(loginController, animated: true)
+    }
 }
 
 extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -207,7 +243,6 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let profileImage = info[.originalImage] as? UIImage
         registrationViewModel.bindableImage.value = profileImage
-        //registrationViewModel.image = profileImage
         
         dismiss(animated: true, completion: nil)
     }

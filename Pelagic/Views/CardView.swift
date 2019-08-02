@@ -6,7 +6,13 @@
 import UIKit
 import SDWebImage
 
+protocol CardViewDelegate {
+    func didTapMoreInfo()
+}
+
 class CardView: UIView {
+    
+    var delegate: CardViewDelegate?
     
     // encapsulation
     fileprivate let imageView = UIImageView(image: #imageLiteral(resourceName: "wife"))
@@ -15,6 +21,8 @@ class CardView: UIView {
     
     fileprivate let deselectedBarColor = UIColor(white: 0, alpha: 0.1)
     fileprivate let threshold: CGFloat = 200
+    
+    fileprivate let barsStackView = UIStackView()
     
     var cardViewModel: CardViewModel! {
         didSet {
@@ -67,6 +75,14 @@ class CardView: UIView {
         gradientLayer.frame = self.frame
     }
     
+    fileprivate let moreInfoButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.tintColor = UIColor.white
+        button.setImage(#imageLiteral(resourceName: "contact_details").withRenderingMode(.alwaysTemplate), for: .normal)
+        button.addTarget(self, action: #selector(handleMoreInfo), for: .touchUpInside)
+        return button
+    }()
+    
     fileprivate func setupLayout() {
         // 3)
         layer.cornerRadius = 10
@@ -86,6 +102,15 @@ class CardView: UIView {
         informationLabel.textColor = .white
         informationLabel.font = UIFont.systemFont(ofSize: 34, weight: .heavy)
         informationLabel.numberOfLines = 0
+        
+        addSubview(moreInfoButton)
+        moreInfoButton.anchor(top: nil, leading: nil, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 16, right: 16), size: .init(width: 44, height: 44))
+    }
+    
+    @objc fileprivate func handleMoreInfo() {
+        // use a delegate
+        delegate?.didTapMoreInfo()
+        // 11) 
     }
     
     @objc fileprivate func handleTap(gesture: UITapGestureRecognizer) {
@@ -118,8 +143,6 @@ class CardView: UIView {
             ()
         }
     }
-    
-    fileprivate let barsStackView = UIStackView()
     
     fileprivate func setupBarsStackView() {
         addSubview(barsStackView)
@@ -231,4 +254,10 @@ class CardView: UIView {
             //imageView.image = UIImage(named: imageName)
  
         10) Note: We have to load our image using some kind of url... That is where SDWebImage framework comes to the rescue!
+ 
+        11) Code Removed. A Hack to present a view controller within a UIView Class. You DONT want any controller code inside a View Class
+                     let rootViewController = UIApplication.shared.keyWindow?.rootViewController
+                     let userDetailsController = UIViewController()
+                     userDetailsController.view.backgroundColor = .yellow
+                     rootViewController?.present(userDetailsController, animated: true)
  */

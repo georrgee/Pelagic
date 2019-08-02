@@ -7,14 +7,16 @@ import UIKit
 import Firebase
 import JGProgressHUD
 
-class HomeViewController: UIViewController, SettingsControllerDelegate {
+class HomeViewController: UIViewController, SettingsControllerDelegate, LoginControllerDelegate, CardViewDelegate {
     
     let topStackView     = TopNavigationStackView()
     let bottomControlsStackView = HomeButtonControlsStackView()
-    
     let cardsDeckView = UIView()
-    // 5)
     var cardViewModels = [CardViewModel]() // empty array
+    fileprivate var user: User?
+    let hud = JGProgressHUD(style: .dark)
+    
+    // 5)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,20 +28,37 @@ class HomeViewController: UIViewController, SettingsControllerDelegate {
         fetchCurrentUser()
     }
     
-    fileprivate var user: User?
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if Auth.auth().currentUser == nil {  // check if user logs out
+            let registrationController = RegistrationController()
+            registrationController.delegate = self
+            let navigationController = UINavigationController(rootViewController: registrationController)
+            present(navigationController, animated: true)
+        }
+    }
+    
+    
+    func didFinishLoggingIn() {
+        fetchCurrentUser()
+    }
     
     fileprivate func fetchCurrentUser() {
+        hud.textLabel.text = "Loading..."
+        hud.show(in: view)
+        cardsDeckView.subviews.forEach({$0.removeFromSuperview()})
         
-        guard let user_id = Auth.auth().currentUser?.uid else { return }
-        Firestore.firestore().collection("users").document(user_id).getDocument { (snapshot, error) in
+        Firestore.firestore().fetchCurrentUser { (user, error) in
             if let error = error {
-                print(error)
+                print("Failed to fetch user:", error)
+                self.hud.dismiss()
                 return
             }
-            
-            guard let dictionary = snapshot?.data() else { return }
-            self.user = User(dictionary: dictionary)
+            self.user = user
             self.fetchUsersFromFireStore()
+            self.hud.dismiss()
+            print("fetchCurrentUser() from home controller got uid!: \(user?.uid ?? "NO ID From function in HomeViewController")")
         }
     }
     
@@ -81,20 +100,22 @@ class HomeViewController: UIViewController, SettingsControllerDelegate {
                 print("Failed to fetch users:", err)
                 return
             }
+            
             snapShot?.documents.forEach({ (docSnapshot) in
                 let userDictionary = docSnapshot.data()
                 let user = User(dictionary: userDictionary)
-                self.cardViewModels.append(user.toCardViewModel())
+                
+                if user.uid != Auth.auth().currentUser?.uid {
+                    self.setupCardFromUser(user: user)
+                }
                 // 6)
-                self.lastFetchedUser = user // this will be the last user
-                self.setupCardFromUser(user: user)
             })
-//            self.setupFirestoreUserCards()
         }
     }
     
     fileprivate func setupCardFromUser(user: User) {
         let cardView = CardView(frame: .zero)
+        cardView.delegate = self
         cardView.cardViewModel = user.toCardViewModel()
         cardsDeckView.addSubview(cardView)
         cardsDeckView.sendSubviewToBack(cardView)
@@ -125,6 +146,12 @@ class HomeViewController: UIViewController, SettingsControllerDelegate {
         overallStackView.layoutMargins = .init(top: 0, left: 8, bottom: 0, right: 8)
         
         overallStackView.bringSubviewToFront(cardsDeckView)
+    }
+    
+    func didTapMoreInfo() {
+        print("Home Controller going to User Detail Controller")
+        let userDetailsController = UserDetailsController()
+        present(userDetailsController, animated: true)
     }
 }
 

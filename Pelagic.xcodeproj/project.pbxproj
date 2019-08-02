@@ -24,7 +24,11 @@
 		3685CFEE22C52B4D00F7F20C /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685CFED22C52B4D00F7F20C /* RegistrationViewModel.swift */; };
 		3685CFF222C57B2600F7F20C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3685CFF122C57B2600F7F20C /* GoogleService-Info.plist */; };
 		3685CFF422CAEBF800F7F20C /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685CFF322CAEBF800F7F20C /* Bindable.swift */; };
+		36AA15B622E62CC20093342F /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AA15B522E62CC20093342F /* LoginController.swift */; };
+		36AA15B822E62E4A0093342F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AA15B722E62E4A0093342F /* LoginViewModel.swift */; };
+		36AA15BA22E648070093342F /* Firebase+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AA15B922E648070093342F /* Firebase+Utilities.swift */; };
 		36D6E6DC22B9679D00545DD9 /* Advertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D6E6DB22B9679D00545DD9 /* Advertiser.swift */; };
+		36E1BBE122F4BEDF00FCF0E9 /* UserDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E1BBE022F4BEDF00FCF0E9 /* UserDetailsController.swift */; };
 		36FC94DE22B4287E007B4A87 /* HomeButtonControlsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FC94DD22B4287E007B4A87 /* HomeButtonControlsStackView.swift */; };
 		36FEB3AB22DFDFD200FC4170 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FEB3AA22DFDFD200FC4170 /* SettingsCell.swift */; };
 		F12521F61054BE8EBAFE9D42 /* Pods_Pelagic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6C2EB192A8C52E0460D56EA /* Pods_Pelagic.framework */; };
@@ -51,7 +55,11 @@
 		3685CFED22C52B4D00F7F20C /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		3685CFF122C57B2600F7F20C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3685CFF322CAEBF800F7F20C /* Bindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
+		36AA15B522E62CC20093342F /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		36AA15B722E62E4A0093342F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		36AA15B922E648070093342F /* Firebase+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+Utilities.swift"; sourceTree = "<group>"; };
 		36D6E6DB22B9679D00545DD9 /* Advertiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertiser.swift; sourceTree = "<group>"; };
+		36E1BBE022F4BEDF00FCF0E9 /* UserDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsController.swift; sourceTree = "<group>"; };
 		36FC94DD22B4287E007B4A87 /* HomeButtonControlsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeButtonControlsStackView.swift; sourceTree = "<group>"; };
 		36FEB3AA22DFDFD200FC4170 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		45377E799C77EC72B8FCD508 /* Pods-Pelagic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pelagic.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pelagic/Pods-Pelagic.release.xcconfig"; sourceTree = "<group>"; };
@@ -111,9 +119,9 @@
 				365AD4BC22B82212001FE4FB /* Model */,
 				365AD4C022B853AF001FE4FB /* ViewModel */,
 				36FC94DC22B427B7007B4A87 /* Views */,
-				360A15FE22B2FA9400F93DD4 /* AppDelegate.swift */,
 				365AD4BF22B840B1001FE4FB /* Controllers */,
-				360A161022B2FC6C00F93DD4 /* Helpers */,
+				360A161022B2FC6C00F93DD4 /* Extensions */,
+				360A15FE22B2FA9400F93DD4 /* AppDelegate.swift */,
 				360A160222B2FA9400F93DD4 /* Main.storyboard */,
 				360A160522B2FA9500F93DD4 /* Assets.xcassets */,
 				360A160722B2FA9500F93DD4 /* LaunchScreen.storyboard */,
@@ -123,12 +131,13 @@
 			path = Pelagic;
 			sourceTree = "<group>";
 		};
-		360A161022B2FC6C00F93DD4 /* Helpers */ = {
+		360A161022B2FC6C00F93DD4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				360A161122B2FC8500F93DD4 /* UIView+Layout.swift */,
+				36AA15B922E648070093342F /* Firebase+Utilities.swift */,
 			);
-			path = Helpers;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		365AD4BC22B82212001FE4FB /* Model */ = {
@@ -143,10 +152,12 @@
 		365AD4BF22B840B1001FE4FB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				36AA15B422E62B100093342F /* Login */,
 				360A160022B2FA9400F93DD4 /* HomeViewController.swift */,
 				363DE57F22C17B3C00492415 /* RegistrationController.swift */,
 				3685CFF322CAEBF800F7F20C /* Bindable.swift */,
 				3621AFD822DE7BB90040333C /* SettingsController.swift */,
+				36E1BBE022F4BEDF00FCF0E9 /* UserDetailsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -167,6 +178,15 @@
 				3660454E22B4B26D00C411D8 /* TopNavigationStackView.swift */,
 			);
 			path = "Stack Views";
+			sourceTree = "<group>";
+		};
+		36AA15B422E62B100093342F /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				36AA15B522E62CC20093342F /* LoginController.swift */,
+				36AA15B722E62E4A0093342F /* LoginViewModel.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		36FC94DC22B427B7007B4A87 /* Views */ = {
@@ -334,14 +354,18 @@
 				3685CFF422CAEBF800F7F20C /* Bindable.swift in Sources */,
 				360A160122B2FA9400F93DD4 /* HomeViewController.swift in Sources */,
 				363DE58222C1846C00492415 /* CustomTextField.swift in Sources */,
+				36AA15BA22E648070093342F /* Firebase+Utilities.swift in Sources */,
 				3685CFEE22C52B4D00F7F20C /* RegistrationViewModel.swift in Sources */,
 				360A15FF22B2FA9400F93DD4 /* AppDelegate.swift in Sources */,
 				36D6E6DC22B9679D00545DD9 /* Advertiser.swift in Sources */,
+				36E1BBE122F4BEDF00FCF0E9 /* UserDetailsController.swift in Sources */,
 				36FC94DE22B4287E007B4A87 /* HomeButtonControlsStackView.swift in Sources */,
 				366C78A722E21C97003A2952 /* AgeRangeCell.swift in Sources */,
+				36AA15B822E62E4A0093342F /* LoginViewModel.swift in Sources */,
 				360A161222B2FC8500F93DD4 /* UIView+Layout.swift in Sources */,
 				365AD4C222B85469001FE4FB /* CardViewModel.swift in Sources */,
 				3660455222B70AF400C411D8 /* CardView.swift in Sources */,
+				36AA15B622E62CC20093342F /* LoginController.swift in Sources */,
 				3621AFD922DE7BB90040333C /* SettingsController.swift in Sources */,
 				3660454F22B4B26D00C411D8 /* TopNavigationStackView.swift in Sources */,
 				363DE58022C17B3C00492415 /* RegistrationController.swift in Sources */,

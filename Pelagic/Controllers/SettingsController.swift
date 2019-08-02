@@ -55,18 +55,14 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
     
     fileprivate func fetchCurrentUser() { // Fetching Firestore Data (fetching current user)
         
-        guard let user_id = Auth.auth().currentUser?.uid else { return }
-        Firestore.firestore().collection("users").document(user_id).getDocument { (snapshot, error) in
+        Firestore.firestore().fetchCurrentUser { (user, error) in
             if let error = error {
-                print(error)
+                print("Failed to fetch current user:", error)
                 return
             }
-            print(snapshot?.data())
             
-            guard let dictionary = snapshot?.data() else { return }
-            self.user = User(dictionary: dictionary)
+            self.user = user
             self.loadUserPhotos()
-            
             self.tableView.reloadData() // reload the data, you call the table view functions one more time
         }
     }
@@ -311,7 +307,8 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
     }
     
     @objc fileprivate func handleLogout() {
-        
+        try? Auth.auth().signOut()
+        dismiss(animated: true)
     }
 }
 
