@@ -112,31 +112,6 @@ class RegistrationController: UIViewController {
         return stackView
     }()
     
-    fileprivate func setupRegistrationViewModelObserver() {
-        
-        registrationViewModel.bindableIsFormValid.bind { [unowned self] (isFormValid) in
-            
-            guard let isFormValid = isFormValid else { return }
-            self.registerButton.isEnabled = isFormValid
-            self.registerButton.backgroundColor = isFormValid ? #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1) : .lightGray
-            self.registerButton.setTitleColor(isFormValid ? .white : .gray, for: .normal)
-        }
-        
-        registrationViewModel.bindableImage.bind { [unowned self] (image) in
-           self.selectPhotoButton.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
-        }
-        
-        registrationViewModel.bindableIsRegistering.bind { [unowned self] (isRegistering) in
-            
-            if isRegistering == true {
-                self.registeringHUD.textLabel.text = "Registering..."
-                self.registeringHUD.show(in: self.view)
-            } else {
-                self.registeringHUD.dismiss()
-            }
-        }
-    }
-    
     //MARK: Private Methods
     
     fileprivate func setupTapGesture() {
@@ -178,6 +153,31 @@ class RegistrationController: UIViewController {
         hud.detailTextLabel.text = error.localizedDescription
         hud.show(in: self.view)
         hud.dismiss(afterDelay: 4)
+    }
+    
+    fileprivate func setupRegistrationViewModelObserver() {
+        
+        registrationViewModel.bindableIsFormValid.bind { [unowned self] (isFormValid) in
+            
+            guard let isFormValid = isFormValid else { return }
+            self.registerButton.isEnabled = isFormValid
+            self.registerButton.backgroundColor = isFormValid ? #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1) : .lightGray
+            self.registerButton.setTitleColor(isFormValid ? .white : .gray, for: .normal)
+        }
+        
+        registrationViewModel.bindableImage.bind { [unowned self] (image) in
+            self.selectPhotoButton.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
+        }
+        
+        registrationViewModel.bindableIsRegistering.bind { [unowned self] (isRegistering) in
+            
+            if isRegistering == true {
+                self.registeringHUD.textLabel.text = "Registering..."
+                self.registeringHUD.show(in: self.view)
+            } else {
+                self.registeringHUD.dismiss()
+            }
+        }
     }
     
     // MARK: @Objc Private Methods
