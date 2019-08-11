@@ -7,7 +7,7 @@ import UIKit
 import SDWebImage
 
 protocol CardViewDelegate {
-    func didTapMoreInfo()
+    func didTapMoreInfo(cardViewModel: CardViewModel)
 }
 
 class CardView: UIView {
@@ -26,7 +26,7 @@ class CardView: UIView {
     
     var cardViewModel: CardViewModel! {
         didSet {
-            let imageName = cardViewModel.imageNames.first ?? "" // 5)
+            let imageName = cardViewModel.imageUrls.first ?? "" // 5)
             // 9) & 10)
             if let url = URL(string: imageName) {
                 imageView.sd_setImage(with: url)
@@ -35,7 +35,7 @@ class CardView: UIView {
             informationLabel.attributedText = cardViewModel.attributedText
             informationLabel.textAlignment = cardViewModel.textAlignment
             
-            (0..<cardViewModel.imageNames.count).forEach { (_) in
+            (0..<cardViewModel.imageUrls.count).forEach { (_) in
                 let barView = UIView()
                 barView.backgroundColor = deselectedBarColor
                 //barView.backgroundColor = .white
@@ -109,7 +109,7 @@ class CardView: UIView {
     
     @objc fileprivate func handleMoreInfo() {
         // use a delegate
-        delegate?.didTapMoreInfo()
+        delegate?.didTapMoreInfo(cardViewModel: self.cardViewModel)
         // 11) 
     }
     

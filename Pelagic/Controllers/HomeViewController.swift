@@ -148,9 +148,10 @@ class HomeViewController: UIViewController, SettingsControllerDelegate, LoginCon
         overallStackView.bringSubviewToFront(cardsDeckView)
     }
     
-    func didTapMoreInfo() {
-        print("Home Controller going to User Detail Controller")
+    func didTapMoreInfo(cardViewModel: CardViewModel) {
+        print("Home Controller:", cardViewModel.attributedText)
         let userDetailsController = UserDetailsController()
+        userDetailsController.cardViewModel = cardViewModel
         present(userDetailsController, animated: true)
     }
 }
