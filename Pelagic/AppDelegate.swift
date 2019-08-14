@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         window?.rootViewController = HomeViewController()
         //window?.rootViewController = UINavigationController(rootViewController: RegistrationController())
+        UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         
         return true
     }

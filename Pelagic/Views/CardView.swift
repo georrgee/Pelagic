@@ -15,7 +15,7 @@ class CardView: UIView {
     var delegate: CardViewDelegate?
     
     // encapsulation
-    fileprivate let imageView = UIImageView(image: #imageLiteral(resourceName: "wife"))
+    fileprivate let imageView = UIImageView(image: #imageLiteral(resourceName: "vicki"))
     fileprivate let informationLabel = UILabel()
     fileprivate let gradientLayer = CAGradientLayer()
     

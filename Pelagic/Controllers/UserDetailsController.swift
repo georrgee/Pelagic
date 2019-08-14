@@ -10,11 +10,13 @@ class UserDetailsController: UIViewController, UIScrollViewDelegate {
     
     // create a different ViewModel Object for UserDetails (i.e. UserDetailsViewModel)
     
+    let swipingPhotosController = SwipingPhotosController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    fileprivate let extraSwipingHeight: CGFloat = 120
+    
     var cardViewModel: CardViewModel! {
         didSet {
             infoLabel.attributedText = cardViewModel.attributedText
-            guard let firstImageUrl = cardViewModel.imageUrls.first, let url = URL(string: firstImageUrl) else { return }
-            userImageView.sd_setImage(with: url)
+            swipingPhotosController.cardViewModel = cardViewModel
         }
     }
     
@@ -28,19 +30,18 @@ class UserDetailsController: UIViewController, UIScrollViewDelegate {
         setupBottomControls()
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        let swipingView = swipingPhotosController.view!
+        swipingView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width + extraSwipingHeight)
+    }
+    
     lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.alwaysBounceVertical = true
         sv.contentInsetAdjustmentBehavior = .never
         sv.delegate = self
         return sv
-    }()
-    
-    let userImageView: UIImageView = {
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "vicki"))
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
     }()
     
     let dismissButton: UIButton = {
@@ -57,11 +58,9 @@ class UserDetailsController: UIViewController, UIScrollViewDelegate {
         return label
     }()
     
-    // 3 bottom control buttons
-    
-    lazy var dislikeButton = self.createButton(image: #imageLiteral(resourceName: "pass"), selector: #selector(handleDislike))
+    lazy var dislikeButton      = self.createButton(image: #imageLiteral(resourceName: "pass"), selector: #selector(handleDislike))
     lazy var superLikeButton    = self.createButton(image: #imageLiteral(resourceName: "super_life"), selector: #selector(handleDislike))
-    lazy var likeButton    = self.createButton(image: #imageLiteral(resourceName: "checkmark"), selector: #selector(handleDislike))
+    lazy var likeButton         = self.createButton(image: #imageLiteral(resourceName: "checkmark"), selector: #selector(handleDislike))
 
     fileprivate func setupBottomControls() {
         let stackView = UIStackView(arrangedSubviews: [dislikeButton, superLikeButton, likeButton])
@@ -84,14 +83,15 @@ class UserDetailsController: UIViewController, UIScrollViewDelegate {
         view.addSubview(scrollView)
         scrollView.fillSuperview()
         
-        scrollView.addSubview(userImageView)
-        userImageView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width) // why frame rather using auto layout (6:43)
+        let swipingView = swipingPhotosController.view!
+        
+        scrollView.addSubview(swipingView)
         
         scrollView.addSubview(infoLabel)
-        infoLabel.anchor(top: userImageView.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: scrollView.trailingAnchor, padding: .init(top: 16, left: 16, bottom: 0, right: 16))
+        infoLabel.anchor(top: swipingView.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: scrollView.trailingAnchor, padding: .init(top: 16, left: 16, bottom: 0, right: 16))
         
         scrollView.addSubview(dismissButton)
-        dismissButton.anchor(top: userImageView.bottomAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: -25, left: 0, bottom: 0, right: 24), size: .init(width: 50, height: 50))
+        dismissButton.anchor(top: swipingView.bottomAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: -25, left: 0, bottom: 0, right: 24), size: .init(width: 50, height: 50))
     }
     
     fileprivate func setupVisualBlurEffectView() {
@@ -100,16 +100,14 @@ class UserDetailsController: UIViewController, UIScrollViewDelegate {
         
         view.addSubview(visualEffectView)
         visualEffectView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.topAnchor, trailing: view.trailingAnchor)
-        
-        //visualEffectView.fillSuperview() //superview affects the entire viewcontroller
-        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let changeY = -scrollView.contentOffset.y
         var width = view.frame.width + changeY * 2
         width = max(view.frame.width, width)
-        userImageView.frame = CGRect(x: min(0,-changeY), y: min(0,-changeY), width: width, height: width) // views width is exapnding as you drag downwards
+        let userImageView = swipingPhotosController.view!
+        userImageView.frame = CGRect(x: min(0, -changeY), y: min(0, -changeY), width: width, height: width + extraSwipingHeight) // views width is exapnding as you drag downwards
     }
     
     @objc fileprivate func handleTapDismiss() {
