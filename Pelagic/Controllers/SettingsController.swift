@@ -145,6 +145,9 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
 
     }
     
+    static let defaultMinSeekingAge = 18
+    static let defaultMaxSeekingAge = 50
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 5 {
@@ -152,9 +155,14 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
             ageRangeCell.minSlider.addTarget(self, action: #selector(handleMinRange), for: .valueChanged)
             ageRangeCell.maxSlider.addTarget(self, action: #selector(handleMaxRange), for: .valueChanged)
             
+            let minAge = user?.minSeekAge ?? SettingsController.defaultMinSeekingAge
+            let maxAge = user?.maxSeekAge ?? SettingsController.defaultMaxSeekingAge
+            
             // need to setup our labels on our cell here (if user cancels or saves or whatever, whenever they go back to the settings page, it should be stored)
-            ageRangeCell.minLabel.text = "Min: \(user?.minSeekAge ?? -1)"
-            ageRangeCell.maxLabel.text = "Max: \(user?.maxSeekAge ?? -1)"
+            ageRangeCell.minLabel.text = "Min: \(minAge)"
+            ageRangeCell.maxLabel.text = "Max: \(maxAge)"
+            ageRangeCell.minSlider.value = Float(minAge)
+            ageRangeCell.maxSlider.value = Float(maxAge)
             return ageRangeCell
         }
         

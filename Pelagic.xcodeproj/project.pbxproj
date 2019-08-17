@@ -170,6 +170,7 @@
 			children = (
 				365AD4C122B85469001FE4FB /* CardViewModel.swift */,
 				3685CFED22C52B4D00F7F20C /* RegistrationViewModel.swift */,
+				36AA15B722E62E4A0093342F /* LoginViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -187,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				36AA15B522E62CC20093342F /* LoginController.swift */,
-				36AA15B722E62E4A0093342F /* LoginViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";

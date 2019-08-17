@@ -90,10 +90,11 @@ class HomeViewController: UIViewController, SettingsControllerDelegate, LoginCon
         hud.textLabel.text = "Refreshing..."
         hud.show(in: view)
         
-        guard let mininmumAge = user?.minSeekAge, let maximumAge = user?.maxSeekAge else { return }
+        let minAge = user?.minSeekAge ?? SettingsController.defaultMinSeekingAge
+        let maxAge = user?.maxSeekAge ?? SettingsController.defaultMaxSeekingAge
         
         // 7)
-        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: mininmumAge).whereField("age", isLessThanOrEqualTo: maximumAge)
+        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: minAge).whereField("age", isLessThanOrEqualTo: maxAge)
         query.getDocuments { (snapShot, error) in
             hud.dismiss()
             if let err = error {
