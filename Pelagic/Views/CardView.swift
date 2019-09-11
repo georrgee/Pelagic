@@ -29,7 +29,7 @@ class CardView: UIView {
             let imageName = cardViewModel.imageUrls.first ?? "" // 5)
             // 9) & 10)
             if let url = URL(string: imageName) {
-                imageView.sd_setImage(with: url)
+                imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "blank_profile_image"), options: .continueInBackground)
             }
             
             informationLabel.attributedText = cardViewModel.attributedText
@@ -51,7 +51,7 @@ class CardView: UIView {
         cardViewModel.imageIndexObserver = { [weak self] (index, imageUrl) in // 8)
             
             if let url = URL(string: imageUrl ?? "") {
-                self?.imageView.sd_setImage(with: url)
+                self?.imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "blank_profile_image"), options: .continueInBackground)
             }
             
             self?.barsStackView.arrangedSubviews.forEach({ (bars) in

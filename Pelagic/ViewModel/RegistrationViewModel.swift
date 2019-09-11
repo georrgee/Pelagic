@@ -71,6 +71,7 @@ class RegistrationViewModel {
                        "minSeekingAge" : SettingsController.defaultMinSeekingAge,
                        "maxSeekingAge" : SettingsController.defaultMaxSeekingAge
             ] as [String : Any]
+        
         Firestore.firestore().collection("users").document(user_id).setData(docData) { (err) in
             if let err = err {
                 completion(err)
@@ -80,11 +81,10 @@ class RegistrationViewModel {
         }
     }
     
-    fileprivate func checkFormValidity() {
-        let isFormValid = fullName?.isEmpty == false && email?.isEmpty == false && password?.isEmpty == false
+    func checkFormValidity() {
+        let isFormValid = fullName?.isEmpty == false && email?.isEmpty == false && password?.isEmpty == false && bindableImage.value != nil
         bindableIsFormValid.value = isFormValid
     }
-    
     // Reactive programming
 //    var isFormValidObserver: ((Bool)->())?
 //    var imageObserver: ((UIImage?) -> ())?

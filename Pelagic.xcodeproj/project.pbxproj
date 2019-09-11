@@ -14,6 +14,7 @@
 		360A160922B2FA9500F93DD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 360A160722B2FA9500F93DD4 /* LaunchScreen.storyboard */; };
 		360A161222B2FC8500F93DD4 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360A161122B2FC8500F93DD4 /* UIView+Layout.swift */; };
 		3621AFD922DE7BB90040333C /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3621AFD822DE7BB90040333C /* SettingsController.swift */; };
+		362CF95B2329785300811F7C /* PhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362CF95A2329785300811F7C /* PhotoController.swift */; };
 		363DE58022C17B3C00492415 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363DE57F22C17B3C00492415 /* RegistrationController.swift */; };
 		363DE58222C1846C00492415 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363DE58122C1846C00492415 /* CustomTextField.swift */; };
 		3640E7512300EF4700ECB2FC /* SwipingPhotosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3640E7502300EF4700ECB2FC /* SwipingPhotosController.swift */; };
@@ -46,6 +47,7 @@
 		360A160A22B2FA9500F93DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		360A161122B2FC8500F93DD4 /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
 		3621AFD822DE7BB90040333C /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		362CF95A2329785300811F7C /* PhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoController.swift; sourceTree = "<group>"; };
 		363DE57F22C17B3C00492415 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		363DE58122C1846C00492415 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		3640E7502300EF4700ECB2FC /* SwipingPhotosController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingPhotosController.swift; sourceTree = "<group>"; };
@@ -142,6 +144,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		362CF9592329782F00811F7C /* User Details */ = {
+			isa = PBXGroup;
+			children = (
+				36E1BBE022F4BEDF00FCF0E9 /* UserDetailsController.swift */,
+				3640E7502300EF4700ECB2FC /* SwipingPhotosController.swift */,
+				362CF95A2329785300811F7C /* PhotoController.swift */,
+			);
+			path = "User Details";
+			sourceTree = "<group>";
+		};
 		365AD4BC22B82212001FE4FB /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,13 +166,12 @@
 		365AD4BF22B840B1001FE4FB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				362CF9592329782F00811F7C /* User Details */,
 				36AA15B422E62B100093342F /* Login */,
 				360A160022B2FA9400F93DD4 /* HomeViewController.swift */,
 				363DE57F22C17B3C00492415 /* RegistrationController.swift */,
 				3685CFF322CAEBF800F7F20C /* Bindable.swift */,
 				3621AFD822DE7BB90040333C /* SettingsController.swift */,
-				36E1BBE022F4BEDF00FCF0E9 /* UserDetailsController.swift */,
-				3640E7502300EF4700ECB2FC /* SwipingPhotosController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -370,6 +381,7 @@
 				3660455222B70AF400C411D8 /* CardView.swift in Sources */,
 				36AA15B622E62CC20093342F /* LoginController.swift in Sources */,
 				3621AFD922DE7BB90040333C /* SettingsController.swift in Sources */,
+				362CF95B2329785300811F7C /* PhotoController.swift in Sources */,
 				3660454F22B4B26D00C411D8 /* TopNavigationStackView.swift in Sources */,
 				363DE58022C17B3C00492415 /* RegistrationController.swift in Sources */,
 				365AD4BE22B82220001FE4FB /* User.swift in Sources */,

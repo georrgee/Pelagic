@@ -243,7 +243,7 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let profileImage = info[.originalImage] as? UIImage
         registrationViewModel.bindableImage.value = profileImage
-        
+        registrationViewModel.checkFormValidity()
         dismiss(animated: true, completion: nil)
     }
 }
